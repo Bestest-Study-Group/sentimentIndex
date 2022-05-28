@@ -1,0 +1,8 @@
+# python stuff
+__pycache__
+
+# npm stuff
+node_modules
+
+# vscode stuff
+.vscode
