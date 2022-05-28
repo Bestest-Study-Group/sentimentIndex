@@ -13,7 +13,6 @@ MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 
 client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
-print(os.getenv('REDISTOGO_URL'))
 redis_url = os.getenv('REDISTOGO_URL', 'redis://my-redis:6379')
 print(redis_url)
 conn = redis.from_url(redis_url)
