@@ -10,7 +10,7 @@ MONGO_PASS = os.getenv('MONGO_PASS')
 client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
 db=client.run1
 
-app = Flask("MYAPP")
+app = Flask(__name__)
 CORS(app)
 
 
