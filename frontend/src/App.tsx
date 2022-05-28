@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "./components/header/header";
 import { useEffect } from "react";
 import axios from "axios";
+import SentimentChart from "./components/sentimentChart/sentimentChart";
 
 function App() {
   useEffect(() => {
@@ -15,6 +16,7 @@ function App() {
   return (
     <div>
       <Header sentiment="neutral" />
+      <SentimentChart />
     </div>
   );
 }
