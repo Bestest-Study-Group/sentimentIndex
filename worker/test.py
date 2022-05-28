@@ -1,11 +1,11 @@
 # this is just to test if worker and redis are working
 from rq import Queue
 from rq.job import Job
-from worker import conn
 import time
 from pymongo import MongoClient
 from random import randint
 from dotenv import load_dotenv
+import redis
 import os
 
 load_dotenv()
@@ -14,6 +14,9 @@ MONGO_PASS = os.getenv('MONGO_PASS')
 
 client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
 
+redis_url = os.getenv('REDISTOGO_URL', 'redis://my-redis:6379')
+print(redis_url)
+conn = redis.from_url(redis_url)
 
 q = Queue(connection=conn)
 # foldername.filename.functionname
