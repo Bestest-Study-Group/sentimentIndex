@@ -16,8 +16,8 @@ CORS(app)
 
 @app.route("/api/reddit")
 def reddit():
-    colleciton = db.test
-    results = list(colleciton.find({}))
+    collection = db.reddit_individual
+    results = list(collection.find({}))
     # convert OjectID to string
     for res in results:
         res['_id'] = str(res['_id'])
@@ -26,8 +26,8 @@ def reddit():
 
 @app.route("/api/news")
 def news():
-    colleciton = db.test
-    results = list(colleciton.find({}))
+    collection = db.test
+    results = list(collection.find({}))
     # convert OjectID to string
     for res in results:
         res['_id'] = str(res['_id'])
