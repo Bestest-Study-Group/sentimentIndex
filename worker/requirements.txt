@@ -2,3 +2,4 @@ rq
 redis
 requests
 pymongo[srv]
+python-dotenv
