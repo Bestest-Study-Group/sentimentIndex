@@ -14,18 +14,25 @@ MONGO_PASS = os.getenv('MONGO_PASS')
 
 client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
 
-db=client.run1
-result = db.test.insert_one({"testNum":randint(1, 10000)})
-print(result)
-
 
 q = Queue(connection=conn)
 # foldername.filename.functionname
-job = q.enqueue("sentiment_analyser.utils.count_words_at_url", 'http://heroku.com')
+function_to_call = 'sentiment_analyser.redditsenti.run'
+job = q.enqueue(function_to_call)
 finished = False
 while not finished:
     time.sleep(1)
     fetched_job = Job.fetch(job.id, conn)
     finished = fetched_job.is_finished
     if finished:
-        print(f'Job {fetched_job.id} finished with following result:\n {job.result}')
+        print(f'{function_to_call} with jobId {fetched_job.id} finished with following result:\n {fetched_job.result}')
+        # Store result in MongoDB
+        db=client.run1
+        data = {
+            "functionCalled":function_to_call,
+            "jobId":fetched_job.id,
+            "result":fetched_job.result
+
+        }
+        result = db.test.insert_one(data)
+        print(result)
