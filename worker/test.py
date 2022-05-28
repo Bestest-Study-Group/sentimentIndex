@@ -30,11 +30,15 @@ while not finished:
         print(f'{function_to_call} with jobId {fetched_job.id} finished with following result:\n {fetched_job.result}')
         # Store result in MongoDB
         db=client.run1
+
         data = {
             "functionCalled":function_to_call,
             "jobId":fetched_job.id,
             "result":fetched_job.result
-
         }
+
+        res = db.reddit_individual.insert_many(fetched_job.result)
+        print(res)
+
         result = db.test.insert_one(data)
         print(result)

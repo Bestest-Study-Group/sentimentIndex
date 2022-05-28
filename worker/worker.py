@@ -2,6 +2,8 @@ import os
 import redis
 from rq import Worker, Queue, Connection
 
+# from sentiment_analyser.individual_classification import IndividualClassification
+
 listen = ['high', 'default', 'low']
 
 redis_url = os.getenv('REDISTOGO_URL', 'redis://my-redis:6379')
