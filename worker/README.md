@@ -27,4 +27,5 @@ If you see the result of the job then its working
 If you make code changes and want the docker container to be updated
 
 1. Stop the docker container (in the GUI or Control + C)
-2. `docker-compose up --build`
+2. Remove old images `docker image prune -a`
+3. `docker-compose up --build`

@@ -5,11 +5,18 @@ from worker import conn
 import time
 from pymongo import MongoClient
 from random import randint
+from dotenv import load_dotenv
+import os
 
-client = MongoClient('mongodb+srv://colin:ruR77XIvMFfAIIpS@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
+load_dotenv()
+MONGO_USER = os.getenv('MONGO_USER')
+MONGO_PASS = os.getenv('MONGO_PASS')
+
+client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mongodb.net/?retryWrites=true&w=majority')
 
 db=client.run1
 result = db.test.insert_one({"testNum":randint(1, 10000)})
+print(result)
 
 
 q = Queue(connection=conn)
