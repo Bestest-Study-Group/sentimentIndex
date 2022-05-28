@@ -1,5 +1,6 @@
 from flask import Flask
 from pymongo import MongoClient
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
@@ -10,6 +11,7 @@ client = MongoClient(f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.tk2cy.mo
 db=client.run1
 
 app = Flask("MYAPP")
+CORS(app)
 
 
 @app.route("/api/reddit")
