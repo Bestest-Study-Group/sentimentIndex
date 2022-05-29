@@ -8,7 +8,7 @@ function App() {
   const [chart, setChart] = useState(<div></div>)
   const [header, setHeader] = useState(<div></div>)
   const pos = ['DraftKings Inc. stock rises Wednesday, outperforms market', 'More Room For Growth In Pioneer Energy Stock?', "After Dismal Performance Last Month, L'Oreal Stock Looks Set To Rebound", 'The stock market is close to finding its bottom as corporate share buybacks surge to record highs, JPMorgan says', 'GameStop Unveils Crypto and NFT Wallet, Shares up 3%']
-  const neg = ['Waste Management Inc. stock rises Thursday, still underperforms market', 'How Do You Stay Confident in a Market Crash?', "Here's 1 of the Biggest Problems With Airbnb Stock", 'Should You Buy Stocks With An Impending Bear Market And Possible Recession?', "Costco Q3 Earnings Preview: Don't Fall With It Any Longer (NASDAQ:COST)"]
+  const neg = ['Bear Market Has Only Just Begun', 'How Do You Stay Confident in a Market Crash?', "Here's 1 of the Biggest Problems With Airbnb Stock", 'Should You Buy Stocks With An Impending Bear Market And Possible Recession?', "Costco Q3 Earnings Preview: Don't Fall With It Any Longer (NASDAQ:COST)"]
   
   let pos_p = pos.map((p) => {
     return (<p>{p}</p>)
