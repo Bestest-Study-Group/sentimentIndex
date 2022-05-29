@@ -1,5 +1,6 @@
 import http.client
 import json
+from math import floor
 import cohere
 from cohere.classify import Example
 from dotenv import load_dotenv
@@ -90,7 +91,34 @@ def classify_articles(articles):
         })
         i = i + 1
 
-    return output
+    temp_data = {}
+
+    for out in output:
+        today = datetime.now()
+        temp = datetime.fromtimestamp(out['date'])
+        days = floor((today - temp).total_seconds() / (60*60*24))
+        
+        if (days in temp_data):
+            if (out['sentiment'] == 'negative'):
+                temp_data[days].append(-1 * out['confidence']['negative'])
+            else:
+                temp_data[days].append(out['confidence']['positive'])
+        else:
+            if (out['sentiment'] == 'negative'):
+                temp_data[days] = [(-1 * out['confidence']['negative'])]
+            else:
+                temp_data[days] = [(out['confidence']['positive'])]
+    
+    final = [None]*30
+
+    for td in temp_data:
+        sum = 0
+        for t in temp_data[td]:
+            sum += t
+        
+        final[td-1] = sum / len(temp_data[td])
+
+    return final
 
     # sum = 0.0
 

@@ -43,7 +43,7 @@ def wait_for_job(function_to_call):
             if (function_to_call == reddit):
                 res = db['reddit'].insert_one({'chart_data': fetched_job.result})
             elif (function_to_call == news):
-                res = db['news'].insert_many(fetched_job.result)
+                res = db['news'].insert_one({'chart_data': fetched_job.result})
 
             print(res)
 

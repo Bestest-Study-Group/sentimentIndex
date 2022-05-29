@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-function SentimentChart() {
+function SentimentChart(props: any) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -21,15 +21,7 @@ function SentimentChart() {
     Legend
   );
 
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+  const labels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
   const options = {
     spanGaps: true,
   };
@@ -38,7 +30,7 @@ function SentimentChart() {
     datasets: [
       {
         label: "Dataset 1",
-        data: [1, 2, undefined, 4, 5, 6, 7],
+        data: props.data,
         borderColor: "rgb(250, 177, 49)",
         backgroundColor: "rgb(250, 177, 49)",
       },
