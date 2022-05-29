@@ -66,13 +66,13 @@ function SentimentChart(props: any) {
     datasets: [
       {
         label: "Reddit",
-        data: props.data,
+        data: props.reddit,
         borderColor: "rgb(250, 177, 49)",
         backgroundColor: "rgb(250, 177, 49)",
       },
       {
         label: "Media",
-        data: [-1, -2, -3, -4, -5, -6, -7],
+        data: props.news,
         borderColor: "rgb(55, 118, 116",
         backgroundColor: "rgb(211, 227, 222)",
       },

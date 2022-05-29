@@ -11,9 +11,13 @@ function App() {
       method: "get",
       url: process.env.REACT_APP_REST_API + "/api/reddit",
     }).then((res) => {
-      // console.log();
-      console.log()
-      setChart(<SentimentChart data={res.data.data[0].chart_data}/>)
+      axios({
+        method: 'get',
+        url: process.env.REACT_APP_REST_API + '/api/news'
+      }).then((news) => {
+        console.log()
+        setChart(<SentimentChart reddit={res.data.data[0].chart_data} news={news.data.data[0].chart_data}/>)
+      })
     });
   }, []);
 
