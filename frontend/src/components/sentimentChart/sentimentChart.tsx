@@ -21,6 +21,13 @@ function SentimentChart() {
     Legend
   );
 
+  const colorCode = 'black';
+  const defaultFont = {
+    family: "Georgia",
+    size: 16,
+    color: 'black'
+  }
+
   const labels = [
     "January",
     "February",
@@ -32,18 +39,48 @@ function SentimentChart() {
   ];
   const options = {
     spanGaps: true,
+    scales: {
+      x: {
+        grid: {
+          
+        },
+        beginAtZero: false,
+        ticks: {
+          color: colorCode,
+          font: defaultFont
+        }
+      },
+      y: {
+        grid: {
+          
+        },
+        beginAtZero: true,
+        ticks: {
+          color: colorCode,
+          font: defaultFont
+        }
+      }
+    },
+    plugins: {
+      legend: {
+          labels: {
+              color: colorCode,
+              font: defaultFont
+          }
+      },
+  }
   };
   const data = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Reddit",
         data: [1, 2, undefined, 4, 5, 6, 7],
         borderColor: "rgb(250, 177, 49)",
         backgroundColor: "rgb(250, 177, 49)",
       },
       {
-        label: "Dataset 2",
+        label: "Media",
         data: [-1, -2, -3, -4, -5, -6, -7],
         borderColor: "rgb(55, 118, 116",
         backgroundColor: "rgb(211, 227, 222)",
