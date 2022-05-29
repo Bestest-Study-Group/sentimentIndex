@@ -18,27 +18,32 @@ print(redis_url)
 conn = redis.from_url(redis_url)
 
 q = Queue(connection=conn)
+
+def wait_for_job(function_to_call):
+    job = q.enqueue(function_to_call)
+    finished = False
+    while not finished:
+        time.sleep(1)
+        fetched_job = Job.fetch(job.id, conn)
+        finished = fetched_job.is_finished
+        if finished:
+            print(f'{function_to_call} with jobId {fetched_job.id} finished with following result:\n {fetched_job.result}')
+            # Store result in MongoDB
+            db=client.run1
+
+            data = {
+                "functionCalled":function_to_call,
+                "jobId":fetched_job.id,
+                "result":fetched_job.result
+            }
+            res = db[function_to_call].insert_many(fetched_job.result)
+            print(res)
+
+            result = db.test.insert_one(data)
+            print(result)
+
 # foldername.filename.functionname
-function_to_call = 'sentiment_analyser.redditsenti.run'
-job = q.enqueue(function_to_call)
-finished = False
-while not finished:
-    time.sleep(1)
-    fetched_job = Job.fetch(job.id, conn)
-    finished = fetched_job.is_finished
-    if finished:
-        print(f'{function_to_call} with jobId {fetched_job.id} finished with following result:\n {fetched_job.result}')
-        # Store result in MongoDB
-        db=client.run1
+reddit = 'sentiment_analyser.redditsenti.run'
+news ='sentiment_analyser.newssenti.run'
+wait_for_job(news)
 
-        data = {
-            "functionCalled":function_to_call,
-            "jobId":fetched_job.id,
-            "result":fetched_job.result
-        }
-
-        res = db.reddit_individual.insert_many(fetched_job.result)
-        print(res)
-
-        result = db.test.insert_one(data)
-        print(result)
