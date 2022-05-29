@@ -21,7 +21,14 @@ function SentimentChart(props: any) {
     Legend
   );
 
-  const labels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
+  const temps = [1,2,3,4,5,6].reverse();
+  let labels = temps.map((temp) => {
+    let days = (new Date()).getTime() - (temp * 24 * 60 * 60 * 1000)
+    let point_date = new Date(days)
+    return ((months[point_date.getMonth()] + " " + (point_date.getDate())))
+  })
   const colorCode = 'black';
   const defaultFont = {
     family: "Georgia",
@@ -66,13 +73,13 @@ function SentimentChart(props: any) {
     datasets: [
       {
         label: "Reddit",
-        data: props.reddit,
+        data: props.reddit.slice(props.reddit.length - 6, props.reddit.length),
         borderColor: "rgb(250, 177, 49)",
         backgroundColor: "rgb(250, 177, 49)",
       },
       {
         label: "Media",
-        data: props.news,
+        data: props.news.slice(props.news.length - 6, props.news.length),
         borderColor: "rgb(55, 118, 116",
         backgroundColor: "rgb(211, 227, 222)",
       },

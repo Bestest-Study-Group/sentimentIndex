@@ -23,7 +23,7 @@ def get_reddit_posts():
     subreddit = reddit.subreddit('stocks')
 
     # submissions = subreddit.search(stock, sort='relevance', time_filter='month')
-    submissions = subreddit.top(time_filter='month', limit=32)
+    submissions = subreddit.top(time_filter='week', limit=32)
 
     return submissions
 

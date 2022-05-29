@@ -1,5 +1,6 @@
 import http.client
 import json
+import time
 from math import floor
 import cohere
 from cohere.classify import Example
@@ -41,7 +42,7 @@ FREE_NEWS_API = os.getenv('FREE_NEWS_API')
 
 co = cohere.Client(COHERE)
 
-def load_articles():
+def load_articles(page):
     conn = http.client.HTTPSConnection("free-news.p.rapidapi.com")
 
     headers = {
@@ -49,13 +50,14 @@ def load_articles():
         'X-RapidAPI-Key': FREE_NEWS_API
         }
 
-    conn.request("GET", "/v1/search?q=stock%20market&lang=en&page=1", headers=headers)
+    conn.request("GET", "/v1/search?q=stock%20market&lang=en&page={}".format(page), headers=headers)
 
     res = conn.getresponse()
     data = res.read()
 
     articles = json.loads(data)["articles"]
     return articles
+
 def classify_articles(articles):
     
     titles = []
@@ -64,6 +66,8 @@ def classify_articles(articles):
     for article in articles:
         titles.append(article["title"])
         date = datetime.strptime(article["published_date"], '%Y-%m-%d %H:%M:%S').timestamp()
+        print(article["published_date"])
+        print(date)
         dates.append(int(date))
         i = i + 1
         if (i > 31):
@@ -91,9 +95,36 @@ def classify_articles(articles):
         })
         i = i + 1
 
+    return output
+
+    # sum = 0.0
+
+    # print("[")
+
+    # for article in articles:
+    #     if (article["summary"] == None):
+    #         blob = TextBlob(article["title"])
+    #         article["summary"] = "No Article"
+    #     else:
+    #         blob = TextBlob(article["summary"])
+    #     senti = blob.sentiment.polarity
+    #     sum += senti
+    #     print("Example(\"" + article["title"] + "\", \"\"),")
+
+    # print("]")
+    
+    # #print("OVERALL SENTIMENT: " + str(sum/len(articles)*5))
+
+def run():
+    classifications = []
+    for i in range(1, 3):
+        articles = load_articles(i)
+        classifications.extend(classify_articles(articles))
+        time.sleep(5)
+
     temp_data = {}
 
-    for out in output:
+    for out in classifications:
         today = datetime.now()
         temp = datetime.fromtimestamp(out['date'])
         days = floor((today - temp).total_seconds() / (60*60*24))
@@ -119,26 +150,6 @@ def classify_articles(articles):
         final[td-1] = sum / len(temp_data[td])
 
     return final
+    # return classifications
 
-    # sum = 0.0
-
-    # print("[")
-
-    # for article in articles:
-    #     if (article["summary"] == None):
-    #         blob = TextBlob(article["title"])
-    #         article["summary"] = "No Article"
-    #     else:
-    #         blob = TextBlob(article["summary"])
-    #     senti = blob.sentiment.polarity
-    #     sum += senti
-    #     print("Example(\"" + article["title"] + "\", \"\"),")
-
-    # print("]")
-    
-    # #print("OVERALL SENTIMENT: " + str(sum/len(articles)*5))
-
-def run():
-    articles = load_articles()
-    classifications = classify_articles(articles)
-    return classifications
+run()

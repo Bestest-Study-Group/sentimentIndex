@@ -1,0 +1,28 @@
+.my_app {
+    margin-bottom: 5em;
+}
+
+.pos_neg {
+    display: flex;
+    margin-top: 3em;
+    font-size: medium;
+    justify-content: space-between;
+}
+
+.pos_list, .neg_list {
+    width: 40%;
+    justify-content: center;
+
+}
+
+.pos_title, .neg_title {
+    font-size: large
+}
+
+.pos_title {
+    color: #4E937A;
+}
+
+.neg_title {
+    color: #FF2320;
+}
