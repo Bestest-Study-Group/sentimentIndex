@@ -18,6 +18,9 @@ print(redis_url)
 conn = redis.from_url(redis_url)
 
 q = Queue(connection=conn)
+# foldername.filename.functionname
+reddit = 'sentiment_analyser.redditsenti.run'
+news ='sentiment_analyser.newssenti.run'
 
 def wait_for_job(function_to_call):
     job = q.enqueue(function_to_call)
@@ -36,14 +39,17 @@ def wait_for_job(function_to_call):
                 "jobId":fetched_job.id,
                 "result":fetched_job.result
             }
-            res = db[function_to_call].insert_many(fetched_job.result)
+            res = {}
+            if (function_to_call == reddit):
+                res = db['reddit'].insert_one({'chart_data': fetched_job.result})
+            elif (function_to_call == news):
+                res = db['news'].insert_many(fetched_job.result)
+
             print(res)
 
             result = db.test.insert_one(data)
             print(result)
 
-# foldername.filename.functionname
-reddit = 'sentiment_analyser.redditsenti.run'
-news ='sentiment_analyser.newssenti.run'
+wait_for_job(reddit)
 wait_for_job(news)
 
